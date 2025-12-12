@@ -380,6 +380,10 @@ bool gstEncoder::buildLaunchStr()
 		ss << "! video/x-vp9 ! ";
 	else if( mOptions.codec == videoOptions::CODEC_MJPEG )
 		ss << "! image/jpeg ! ";
+
+	// fix for rtsp output issues with jetpack 6
+	if( mOptions.resource.protocol == "rtsp" )
+		ss << "queue max-size-buffers=1000 max-size-time=200000000 max-size-bytes=50000000 ! ";
 	
 	if( mOptions.save.path.length() > 0 )
 	{
